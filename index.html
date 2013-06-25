@@ -1,79 +1,257 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Neuroimaging codes : Pipeline for NeuroImaging" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Neuroimaging codes by mrhunsaker</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Neuroimaging codes</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1>Neuroimaging codes</h1>
+        <p>Pipeline for NeuroImaging</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/mrhunsaker/NeuroImaging_Codes">View on GitHub</a>
+        <p class="view"><a href="https://github.com/mrhunsaker/NeuroImaging_Codes">View the Project on GitHub <small>mrhunsaker/NeuroImaging_Codes</small></a></p>
 
-          <h1 id="project_title">Neuroimaging codes</h1>
-          <h2 id="project_tagline">Pipeline for NeuroImaging</h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/mrhunsaker/NeuroImaging_Codes/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/mrhunsaker/NeuroImaging_Codes/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+        <ul>
+          <li><a href="https://github.com/mrhunsaker/NeuroImaging_Codes/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/mrhunsaker/NeuroImaging_Codes/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/mrhunsaker/NeuroImaging_Codes">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>
+<a name="required-programs" class="anchor" href="#required-programs"><span class="octicon octicon-link"></span></a>Required Programs</h2>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<p>These are the programs that we use in this pipeline.  All of these except for Mango and a batch renaming application are called from the terminal.</p>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<ul>
+<li>  <a href="http://www.mccauslandcenter.sc.edu/mricro/mricron/dcm2nii.html">dcm2nii</a>
+</li>
+<li>  ANTS (nightly build: git://github.com/stnava/ANTs.git)</li>
+<li>  ITK (nightly build: git clone git://itk.org/ITK.git )</li>
+<li>  <a href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/">FMRIB Software Library (FSL)</a>
+</li>
+<li>  <a href="http://www.itksnap.org/pmwiki/pmwiki.php?n=Convert3D.Documentation">Convert3D</a>
+</li>
+<li>  <a href="http://www.r-project.org">R Statistical Computing Language</a>
+</li>
+<li>  <a href="http://ric.uthscsa.edu/mango/">Mango</a>
+</li>
+<li>  Batch renaming application that is capable of using regular expressions (i.e., <a href="http://www.publicspace.net/ABetterFinderRename/">Better Rename</a>)</li>
+<li>  Terminal set to Bourne Again Script (bash)</li>
+</ul><hr><h2>
+<a name="unzip-targz-files" class="anchor" href="#unzip-targz-files"><span class="octicon octicon-link"></span></a>unzip .tar.gz files</h2>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<pre><code>gunzip  ./original/*.tar.gz
+
+for i in ./original/*.tar ; do
+    sudo tar xopvf $i
+done
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<hr><h2>
+<a name="convert-dicom-files-to-nifti-format" class="anchor" href="#convert-dicom-files-to-nifti-format"><span class="octicon octicon-link"></span></a>Convert DICOM files to NIfTI format</h2>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p>This program batch converts DICOM files into NIfTI format (nii.gz).  It also crops the output of neck and non brain tissues, rsulting in a file with a "co" prefix and also attempts to align the images to a standard orientation.</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<pre><code>./dcm2nii -a y -d n -e n -f n -g n -i n -p n -r n -x y ./original/*/
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+find ./original/  -type f -name co*.nii.gz -exec cp {} ./data/ \;
+</code></pre>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>At this point, rename the files with BetterRename.app or another program capable of batch renaming files using regular expressions to format names to mmu12345_Xwk.nii.gz for later steps using the following regular expression:</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<pre><code>(\w{2})+(\d{8})+(\_)+(\d{10})+(\w{6})+(\w{3})+(\d{5})(\d{1})+(\w*)
+</code></pre>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>Replace the regular expression with (X = the age of the Subject at scan):</p>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<pre><code>\6\7_Xwk
+</code></pre>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<hr><h2>
+<a name="rigid-affine-alignment-to-a-template-to-ac-pc-align" class="anchor" href="#rigid-affine-alignment-to-a-template-to-ac-pc-align"><span class="octicon octicon-link"></span></a>Rigid affine alignment to a template to AC-PC Align</h2>
+
+<p>This aligns all of the scans within the same general template space, but does not effect the size or shape of the scan being aligned to the template.  However, this does <strong>not</strong> explicitly AC-PC align the images and does <strong>not</strong> change the scan origin like the acpcdetect program in the ART package.</p>
+
+<pre><code>for i in ./data/*.nii.gz ; do
+    cd ./Template Directory/
+    $ANTSPATH/ANTS 3 -m MI[&lt;Template&gt;.nii.gz,$(dirname $i)/$(basename $i .nii.gz).nii.gz,1,32] -o $(dirname $i)/$(basename $i .nii.gz)ACPC -i 0 --number-of-affine-iterations 1x1x1 --rigid-affine true
+    $ANTSPATH/WarpImageMultiTransform 3 $(dirname $i)/$(basename $i .nii.gz).nii.gz $(dirname $i)/$(basename $i .nii.gz)_acpc.nii.gz $(dirname $i)/$(basename $i .nii.gz)ACPCAffine.txt -R &lt;Template&gt;.nii.gz
+done
+</code></pre>
+
+<hr><h2>
+<a name="reslice-images-to-35mm-isotropic-resolution-and-set-a-consistent-field-of-view" class="anchor" href="#reslice-images-to-35mm-isotropic-resolution-and-set-a-consistent-field-of-view"><span class="octicon octicon-link"></span></a>Reslice images to .35mm isotropic resolution and set a consistent field of view</h2>
+
+<pre><code>for i in ./data/*_acpc.nii.gz ; do
+    ./c3d $(dirname $i)/$(basename $i .nii.gz).nii.gz -interpolation Cubic -resample-mm .35x.35x.35mm -trim-to-size 256x256x256vox -verbose -o $(dirname $i)/$(basename $i .nii.gz)_resampled.nii.gz
+done
+</code></pre>
+
+<hr><h2>
+<a name="n4itk-bias-field-correction" class="anchor" href="#n4itk-bias-field-correction"><span class="octicon octicon-link"></span></a>N4ITK Bias Field Correction</h2>
+
+<p>This removes the bias field generated by the magnetic inhomogeneity in the MRI scanning procedures.  This is done by iteratively running the script three time with increasingly fine parameters. </p>
+
+<pre><code>for i in /Users/thehunsakers/Documents/MPRAGE/*/*_resampled.nii.gz ; do
+    $ANTSPATH/N4BiasFieldCorrection -d 3 -i $(dirname $i)/$(basename $i .nii.gz).nii.gz -o $(dirname $i)/$(basename $i .nii.gz)_n4.nii.gz -s 8 -b [200] -c [50x50x50x50,0.000001]
+    $ANTSPATH/N4BiasFieldCorrection -d 3 -i $(dirname $i)/$(basename $i .nii.gz)_n4.nii.gz -o $(dirname $i)/$(basename $i .nii.gz)_n4.nii.gz -s 4 -b [200] -c [50x50x50x50,0.000001]
+    $ANTSPATH/N4BiasFieldCorrection -d 3 -i $(dirname $i)/$(basename $i .nii.gz)_n4.nii.gz -o $(dirname $i)/$(basename $i .nii.gz)_n4.nii.gz -s 2 -b [200] -c [50x50x50x50,0.000001]
+done
+</code></pre>
+
+<hr><h2>
+<a name="landmark-guided-template-matching-to-generate-region-of-interest" class="anchor" href="#landmark-guided-template-matching-to-generate-region-of-interest"><span class="octicon octicon-link"></span></a>Landmark Guided Template Matching to Generate Region of Interest</h2>
+
+<p>Place control point landmarks of control points in the ROI located at regions of maximal anatomical variability across scans and this will take the traced, gold standard ROI in the templates folder and map it onto each scan</p>
+
+<pre><code>for i in ./data/*_n4.nii.gz ; do
+    cd ./data/Template Folder/
+    sh guidedregistration.sh &lt;Template&gt;.nii.gz &lt;Template_roi&gt;.nii.gz $(dirname $i)/$(basename $i .nii.gz).nii.gz $(dirname $i)/$(basename $i .nii.gz)_roi.nii.gz $(dirname $i)/$(basename $i .nii.gz)_OUTPUT 100x100x10 3
+done
+
+for i in ./data/*_OUTPUTSEGMENTED.nii.gz ; do
+    ./c3d $(dirname $i)/$(basename $i .nii.gz).nii.gz -binarize -o $(dirname $i)/$(basename $i .nii.gz)_binary.nii.gz
+done
+</code></pre>
+
+<hr><h2>
+<a name="learning-based-wrapper-to-fix-landmark-matching-roi" class="anchor" href="#learning-based-wrapper-to-fix-landmark-matching-roi"><span class="octicon octicon-link"></span></a>Learning Based Wrapper to Fix Landmark Matching ROI</h2>
+
+<p>At this point, trace a number of primates regions of interest to be gold standard and run through the SegAdapter pipeline that uses machine learning to correct systematic errors introduced during the Landmark Guided Template Matching Step</p>
+
+<pre><code>./bl ./data/inputIMAGEFILE.txt ./data/manualSegmentationFile.txt ./data/autoSegmentationFile.txt 1 2 4x4x4 .1 500  ./data/TRAINING/training
+
+for i in ./data/*.nii.gz ; do
+    ./sa $(dirname $i)/$(basename $i .nii.gz).nii.gz $(dirname $i)/$(basename $i .nii.gz).nii.gz ./data/TRAINING/training $(dirname $i)/$(basename $i .nii.gz)_CORR.nii.gz
+done
+</code></pre>
+
+<h2>
+<a name="compute-dice-coefficient" class="anchor" href="#compute-dice-coefficient"><span class="octicon octicon-link"></span></a>Compute DICE Coefficient</h2>
+
+<pre><code>for i in ./data/*.nii.gz; do
+    c3d -verbose -overlap 1 $(dirname $i)/$(basename $i .nii.gz).nii.gz $(dirname $i)/$(basename $i .nii.gz)_OUTPUThipp_binary.nii.gz $(dirname $i)/$(basename $i .nii.gz)_CORR.nii.gz &gt; ./data/$(basename $i .nii.gz).txt
+done
+</code></pre>
+
+<hr><h2>
+<a name="extract-roi-volumes-for-analysis" class="anchor" href="#extract-roi-volumes-for-analysis"><span class="octicon octicon-link"></span></a>Extract ROI Volumes for Analysis</h2>
+
+<p>This will compute the Volumes and number of Voxels contained within each region of interest for analysis.</p>
+
+<pre><code>find ./data/  -type f -name *_forANALYSIS.nii.gz -exec cp -fpv {} ./data/FINAL_ROI/ \;
+
+for i in $(find ./data/FINAL_ROI/ -type f -name "_CORR.nii.gz"); do
+    val=$(fslval $i dim1)
+    xsize=$(echo "$val/2" | bc)
+    fslroi $i $(dirname $i)/$(basename $i .nii.gz)_HPCl.nii.gz 0 $xsize 0 -1 0 -1
+    xmin=$xsize; xsize=$(echo "$val-$xmin" | bc)
+    fslroi $i $(dirname $i)/$(basename $i .nii.gz)_HPCr.nii.gz $xmin $xsize 0 -1 0 -1
+    fslmaths $(dirname $i)/$(basename $i .nii.gz)_HPCr.nii.gz -mul 2 $(dirname $i)/$(basename $i .nii.gz)_HPCr.nii.gz
+    fslmerge -x $(dirname $i)/$(basename $i .nii.gz)_HPC.nii.gz $(dirname $i)/$(basename $i .nii.gz)_HPCr.nii.gz $(dirname $i)/$(basename $i .nii.gz)_HPCl.nii.gz
+    c3d $(dirname $i)/$(basename $i .nii.gz)_HPC.nii.gz -split -oo $(dirname $i)/temp.nii.gz $(dirname $i)/$(basename $i .nii.gz)_HPCl.nii.gz $(dirname $i)/$(basename $i .nii.gz)_HPCr.nii.gz
+done
+
+for i in ./data/FINAL_ROI/*_forANALYSIS.nii.gz; do
+    $FSLDIR/bin/fslstats $i -V &gt;$(dirname $i)/$(basename $i .nii.gz).txt
+done
+
+for i in ./data/FINAL_ROI/*right.txt; do
+    newname=`echo "$i" | sed 's/_acpc_resampled_n4_OUTPUTSEGMENTED_binary_Corrected_forANALYSIS_right/_right/g'`
+      mv "$i" "$newname"
+done
+
+for i in ./data/FINAL_ROI/*left.txt; do
+    newname=`echo "$i" | sed 's/_acpc_resampled_n4_OUTPUTSEGMENTED_binary_Corrected_forANALYSIS_left/_left/g'`
+      mv "$i" "$newname"
+done
+
+for i in ./data/FINAL_ROI/*forANALYSIS.txt; do
+    rm -f $i
+done
+
+find ./data/FINAL_ROI/  -type f -name *.txt -exec cp -fpv {} ./data/FINAL_ROI/Volumes/ \;
+</code></pre>
+
+<hr><h2>
+<a name="trim-rois-for-3d-rendering" class="anchor" href="#trim-rois-for-3d-rendering"><span class="octicon octicon-link"></span></a>Trim ROIs for 3D Rendering</h2>
+
+<p>This trims the ROIs to have a 5 voxel padding.  This greatly reduces the file size as well as makes 3D visualization much more clear.</p>
+
+<pre><code>for i in ./data/*_Corrected.nii.gz ; do
+    ./c3d $(dirname $i)/$(basename $i) -trim 5vox -o $(dirname $i)/$(basename $i .nii.gz)_forRENDERING.nii.gz
+done
+</code></pre>
+
+<hr><h2>
+<a name="organize-roi-into-a-file-using-r" class="anchor" href="#organize-roi-into-a-file-using-r"><span class="octicon octicon-link"></span></a>Organize ROI into a File using R</h2>
+
+<p>This script takes the region of interest volumes generated above and tabulates them in a single text file with Subject ID, Age, Left Volume, and Right </p>
+
+<pre><code>R
+rm(list = ls(all = TRUE))
+library(limma)
+library(reshape)
+library(outliers)
+library(psych)
+library(doBy)
+library(gdata)
+library(gplots)
+library(lattice)
+setwd("./data/FINAL_ROI/Volumes/")
+files=list.files(path=".", recursive=TRUE)
+all_files=data.frame(files=NULL)
+for(i in seq(along=files))
+{
+orig=read.table(files[i], header=FALSE, sep=" ")
+orig=rename(orig,c(V1="voxels",V2="volume"))
+all_files=rbind(all_files,orig)
+}
+all_files=subset(all_files, select=-c(V3))
+files=removeExt(files)
+all_files=cbind(files,all_files)
+data=all_files
+allRIGHT=subset(data,grepl("_HPCr",data$files)
+allLEFT=subset(data,grepl("_HPCl",data$files))
+Subjects=allRIGHT$files
+Subjects=as.character(Subjects)
+Age=gsub("(\\w+)_(\\d+)(\\w+)", "\\2", Subjects)
+Subjects=gsub("(\\w+)_(\\d+)(\\w+)", "\\1", Subjects)
+R_Voxels=allRIGHT$voxels
+R_Volume=allRIGHT$volume
+L_Voxels=allLEFT$voxels
+L_Volume=allLEFT$volume
+Hippocampal_Volumes=cbind(Subjects,Age,R_Volume,L_Volume)
+write.table(Hippocampal_Volumes, file="./data/FINAL_ROI/Volumes/Hippocampal_ROI.txt",sep=",",row.names=FALSE,col.names=TRUE)
+</code></pre>
+
+<h2>
+<a name="have-yet-to-be-implemented" class="anchor" href="#have-yet-to-be-implemented"><span class="octicon octicon-link"></span></a>Have yet to be implemented</h2>
+
+<ul>
+<li>  Set up and pilot acpcdetect for primate scans</li>
+<li>  Histogram clipping to normalize grayscale levels</li>
+<li>  Brain extraction (via Atropos)</li>
+<li>  DBM analyses to analyze ROI change over time</li>
+</ul>
       </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Neuroimaging codes maintained by <a href="https://github.com/mrhunsaker">mrhunsaker</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/mrhunsaker">mrhunsaker</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-
+    <script src="javascripts/scale.fix.js"></script>
     
-
   </body>
 </html>
