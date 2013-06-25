@@ -3,7 +3,7 @@ NeuroImaging_Codes
 
 Pipeline for NeuroImaging
 
-Go to the Wiki page or go to https://github.com/mrhunsaker/NeuroImaging_Codes/wiki/Neuro-Pipeline-Wiki to get to the wiki for my neuroimaging pipelines.
+Go to the Wiki page or go to http://mrhunsaker.github.io/NeuroImaging_Codes/ to get to the wiki for my neuroimaging pipelines.
 
 I try to focus as much as possible on free, open source command line tools that are based on ITK and VTK libraries.  
 
