@@ -1,33 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Neuroimaging codes by mrhunsaker</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Neuroimaging codes : Pipeline for NeuroImaging" />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Neuroimaging codes</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Neuroimaging codes</h1>
-        <p>Pipeline for NeuroImaging</p>
 
-        <p class="view"><a href="https://github.com/mrhunsaker/NeuroImaging_Codes">View the Project on GitHub <small>mrhunsaker/NeuroImaging_Codes</small></a></p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/mrhunsaker/NeuroImaging_Codes">View on GitHub</a>
 
+          <h1 id="project_title">Neuroimaging codes</h1>
+          <h2 id="project_tagline">Pipeline for NeuroImaging</h2>
 
-        <ul>
-          <li><a href="https://github.com/mrhunsaker/NeuroImaging_Codes/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/mrhunsaker/NeuroImaging_Codes/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/mrhunsaker/NeuroImaging_Codes">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/mrhunsaker/NeuroImaging_Codes/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/mrhunsaker/NeuroImaging_Codes/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h2>
 <a name="required-programs" class="anchor" href="#required-programs"><span class="octicon octicon-link"></span></a>Required Programs</h2>
 
@@ -36,12 +39,8 @@
 <ul>
 <li>  <a href="http://www.mccauslandcenter.sc.edu/mricro/mricron/dcm2nii.html">dcm2nii</a>
 </li>
-<li>  <a href="git://github.com/stnava/ANTs.git">ANTS</a>
-  
-</li>
-<li>  <a href="git://itk.org/ITK.git">ITK</a>
-  
-</li>
+<li>  ANTS (nightly build: git://github.com/stnava/ANTs.git)</li>
+<li>  ITK (nightly build: git clone git://itk.org/ITK.git )</li>
 <li>  <a href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/">FMRIB Software Library (FSL)</a>
 </li>
 <li>  <a href="http://www.itksnap.org/pmwiki/pmwiki.php?n=Convert3D.Documentation">Convert3D</a>
@@ -117,7 +116,7 @@ done
 <hr><h2>
 <a name="landmark-guided-template-matching-to-generate-region-of-interest" class="anchor" href="#landmark-guided-template-matching-to-generate-region-of-interest"><span class="octicon octicon-link"></span></a>Landmark Guided Template Matching to Generate Region of Interest</h2>
 
-<p>Place control point landmarks of control points in the ROI located at regions of maximal anatomical variability across scans and this will take the traced, gold standard ROI in the templates folder and map it onto each scan</p>
+<p>Place control point landmarks of control points in the ROI located at regions of maximal anatomical variability across scans and this will take the traced, gold standard ROI in the templates folder and map it onto each scan. The guided registration script is located <a href="https://github.com/mrhunsaker/ANTS_Scripts/blob/master/guidedregistration.sh">Here</a>.</p>
 
 <pre><code>for i in ./data/*_n4.nii.gz ; do
     cd ./data/Template Folder/
@@ -250,12 +249,17 @@ write.table(Hippocampal_Volumes, file="./data/FINAL_ROI/Volumes/Hippocampal_ROI.
 <li>  DBM analyses to analyze ROI change over time</li>
 </ul>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/mrhunsaker">mrhunsaker</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Neuroimaging codes maintained by <a href="https://github.com/mrhunsaker">mrhunsaker</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
     
+
   </body>
 </html>
